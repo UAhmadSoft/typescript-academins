@@ -1,0 +1,17 @@
+{
+  "name": "understanding-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "advanced-types.ts",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "author": "Maximilian Schwarzmüller",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "tsc": "^2.0.4"
+  }
+}
