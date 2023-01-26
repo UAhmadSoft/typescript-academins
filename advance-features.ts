@@ -14,14 +14,14 @@ interface ElevatedEmployee extends Admin, Employee {}
 
 // type ElevatedEmployee = Admin & Employee;
 
-type Combinable = string | number;
-// type Numeric = number | boolean;
+type Combinable2 = string | number;
+type Numeric = number | boolean;
 
-// type Universal = Combinable & Numeric;
+type Universal = Combinable2 & Numeric;
 // * number
 
 // More on Type Guards
-function add(a: Combinable, b: Combinable) {
+function add2(a: Combinable2, b: Combinable2) {
   if (typeof a === 'string' || typeof b === 'string') {
     return a.toString() + b.toString();
   }
@@ -94,18 +94,18 @@ console.clear();
 
 // * Function Overloads
 
-function add2(a: number, b: number): number;
-function add2(a: string, b: string): string;
-function add2(a: string, b: number): string;
-function add2(a: number, b: string): string;
-function add2(a: Combinable, b: Combinable) {
+function add5(a: number, b: number): number;
+function add5(a: string, b: string): string;
+function add5(a: string, b: number): string;
+function add5(a: number, b: string): string;
+function add5(a: Combinable2, b: Combinable2) {
   if (typeof a === 'string' || typeof b === 'string') {
     return a.toString() + b.toString();
   }
   return a + b;
 }
 
-const result2 = add2('Max', ' Schwarz');
+const result2 = add5('Max', ' Schwarz');
 
 console.clear();
 
@@ -159,30 +159,30 @@ const mergedObj = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
 console.log(mergedObj);
 // mergedObj.name;
 
-const merge2 = <T, U>(objA: T, objB: U) => {
+const merge2 = <T extends {}, U>(objA: T, objB: U) => {
   return Object.assign(objA, objB);
 };
 
-const mergedObj2 = merge2({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
-const mergedObj3 = merge2<{ name: string; hobbies: string[] }, { age: number }>(
-  { name: 'Max', hobbies: ['Sports'] },
-  { age: 30 }
-);
+// const mergedObj2 = merge2({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
+// const mergedObj3 = merge2<{ name: string; hobbies: string[] }, { age: number }>(
+//   { name: 'Max', hobbies: ['Sports'] },
+//   { age: 30 }
+// );
 
-console.log(mergedObj2);
-console.log(mergedObj3);
+// console.log(mergedObj2);
+// console.log(mergedObj3);
 
 console.clear();
 
 // * working with Constraints
 
-function merge3<T extends object, U extends object>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
-}
+// function merge3<T extends object, U extends object>(objA: T, objB: U) {
+//   return Object.assign(objA, objB);
+// }
 
-const mergedObj4 = merge3({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
+// const mergedObj4 = merge3({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
 
-console.log(mergedObj4);
+// console.log(mergedObj4);
 
 console.clear();
 

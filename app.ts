@@ -268,8 +268,16 @@ const it = new ITDepartment('d1', ['Max']);
 // overriding
 
 //  * Getters & Setters
+//
+// interface IUserUpdate {
+// lastReport;
+// }
+
 class Department5 {
-  constructor(private id: string, public name: string) {}
+  constructor(private id: string, public name: string) {
+    this.lastReport = null;
+  }
+  private lastReport: string | null;
 
   describe(this: Department5) {
     console.log(`Department (${this.id}): ${this.name}`);
@@ -292,8 +300,6 @@ class Department5 {
   private addReport(text: string) {
     this.lastReport = text;
   }
-
-  private lastReport: string;
 }
 
 class ITDepartment2 extends Department5 {
