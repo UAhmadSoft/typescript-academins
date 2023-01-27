@@ -21,14 +21,24 @@ namespace Decorators {
   }
 
   function withTemplete(template: string, hookId: string) {
-    return function (constructor: any) {
-      const hookEl = document.getElementById(hookId)!;
-      hookEl.innerHTML = template;
-      const p = new constructor();
-      if (hookEl) {
-        hookEl.innerHTML = template;
-        hookEl.querySelector('h1')!.textContent = p.name;
+    return function <
+      T extends {
+        new (...args: any[]): {
+          name: string;
+        };
       }
+    >(originalConstructor: T) {
+      return class extends originalConstructor {
+        constructor(...args: any[]) {
+          super();
+          const hookEl = document.getElementById(hookId) as HTMLDivElement;
+          hookEl.innerHTML = template;
+          if (hookEl) {
+            hookEl.innerHTML = template;
+            hookEl.querySelector('h1')!.textContent = this.name;
+          }
+        }
+      };
     };
   }
 
@@ -53,15 +63,15 @@ namespace Decorators {
   // * All decortors execute when the class is defined, not when it is instantiated.
 
   function Log(target: any, propertyName: string | Symbol) {
-    console.log('Property decorator!');
-    console.log(target, propertyName);
+    // console.log('Property decorator!');
+    // console.log(target, propertyName);
   }
 
   function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
-    console.log('Accessor decorator!');
-    console.log(target);
-    console.log(name);
-    console.log(descriptor);
+    // console.log('Accessor decorator!');
+    // console.log(target);
+    // console.log(name);
+    // console.log(descriptor);
   }
 
   function Log3(
@@ -70,16 +80,26 @@ namespace Decorators {
     descriptor: PropertyDescriptor
   ) {
     console.log('Method decorator!');
-    console.log(target);
-    console.log(name);
-    console.log(descriptor);
+    console.log('target', target);
+    console.log('name', name);
+    console.log('descriptor', descriptor);
+
+    const originalMethod = descriptor.value;
+    const adjacentDescriptor: PropertyDescriptor = {
+      configurable: true,
+      get: () => {
+        return originalMethod.bind('target');
+      },
+    };
+
+    return adjacentDescriptor;
   }
 
   function Log4(target: any, name: string | Symbol, position: number) {
-    console.log('Parameter decorator!');
-    console.log(target);
-    console.log(name);
-    console.log(position);
+    // console.log('Parameter decorator!');
+    // console.log(target);
+    // console.log(name);
+    // console.log(position);
   }
 
   class Product {
@@ -103,7 +123,9 @@ namespace Decorators {
 
     @Log3
     getPriceWithTax(@Log4 tax: number) {
+      console.log('this getPric1232eWithTax ', this);
       return this._price * (1 + tax);
     }
   }
+  const product = new Product('Hi', 123).getPriceWithTax(123);
 }
